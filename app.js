@@ -1,7 +1,7 @@
 import { db, collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "./firebase.js";
 
 
-const userCollection = collection(db, "users");
+const todoCollection = collection(db, "todos");
 const inputField = document.querySelector(".form-control");
 let cardparent = document.querySelector(".cardparent");
 
@@ -29,7 +29,7 @@ const addData = async () => {
     };
 
 
-    const respons = await addDoc(userCollection, userObj);
+    const respons = await addDoc(todoCollection, userObj);
     const uid = respons.id;
     console.log(userObj);
 
@@ -49,7 +49,7 @@ const addData = async () => {
 
 const getData = async () => {
   try {
-    const querySnapshot = await getDocs(userCollection);
+    const querySnapshot = await getDocs(todoCollection);
     let emptyArr = [];
     cardparent.innerHTML = "";
 
@@ -90,7 +90,7 @@ class="fa-solid fa-xmark"></i></button>
 const delTode = async (ele) => {
   // console.log(ele.id);
   try {
-    await deleteDoc(doc(db, "users", ele.id));
+    await deleteDoc(doc(db, "todos", ele.id));
     getData();
   } catch (error) {
     alert(error.message);
@@ -103,7 +103,7 @@ const editTode = async (ele) => {
   try {
     const editValue = prompt("Enter New Value!");
 
-    await updateDoc(doc(db, "users", ele.id), {
+    await updateDoc(doc(db, "todos", ele.id), {
       value: editValue,
     });
     getData();
